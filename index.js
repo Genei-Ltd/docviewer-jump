@@ -5,8 +5,10 @@ const docViewer = new CoreControls.DocumentViewer()
 docViewer.setScrollViewElement(document.getElementById('scrollView'))
 docViewer.setViewerElement(document.getElementById('docViewer'))
 docViewer.setOptions({ enableAnnotations: true })
-docViewer.on('documentLoaded', () => {
+let loaded = false
+docViewer.on('annotationsLoaded', () => {
     docViewer.setFitMode(docViewer.FitMode.FitWidth)
+    if (!loaded) return
     const annotManager = docViewer.getAnnotationManager()
     const annotation = new Annotations.TextHighlightAnnotation()
     annotation.PageNumber = 7
@@ -27,7 +29,14 @@ docViewer.on('documentLoaded', () => {
     annotManager.bringToBack(annotation)
     annotManager.jumpToAnnotation(annotation)
 })
-docViewer.loadDocument('learn-to-summarize.pdf', {
-    filename: 'learn to summarize',
+docViewer.loadDocument('football.pdf', {
+    filename: 'football',
     extension: 'pdf'
+})
+load.addEventListener('click', () => {
+    docViewer.loadDocument('learn-to-summarize.pdf', {
+        filename: 'learn to summarize',
+        extension: 'pdf'
+    })
+    loaded = true
 })
